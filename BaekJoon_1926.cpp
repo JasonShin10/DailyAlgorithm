@@ -1,72 +1,76 @@
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
 #include <queue>
 
 using namespace std;
 
-int A[501][501] = {};
+int N, M;
+int arr[501][501] = {};
 bool visited[501][501] = {};
-// 위, 아래, 오른, 왼쪽
-
+// 위, 아래, 오른쪽, 왼쪽
 int dx[] = { -1,1,0,0 };
 int dy[] = { 0,0,1,-1 };
+int pictureCnt = 0;
+int cnt = 0;
+int mx = 0;
 
 queue<pair<int, int>> mq;
-
-int N, M;
-int bfs()
+void BFS()
 {
-	int size = 0;
 	while (!mq.empty())
 	{
 		int x = mq.front().first;
 		int y = mq.front().second;
 		mq.pop();
-		size++;
 		for (int i = 0; i < 4; i++)
 		{
 			int nx = x + dx[i];
 			int ny = y + dy[i];
-			if (nx >= 0 && ny >= 0 && nx < N && ny < M && A[nx][ny] == 1 && !visited[nx][ny])
+			if (nx >=0 && nx<N && ny>=0 && ny <M && arr[nx][ny] == 1 )
 			{
-				visited[nx][ny] = true;
+				if (visited[nx][ny] != true)
+				{
 				mq.push({ nx,ny });
+				cnt++;
+				visited[nx][ny] = true;
+				}
 			}
 		}
 	}
-	return size;
 }
 
 int main()
 {
 	cin >> N >> M;
+
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			cin >> A[i][j];
+			cin >> arr[i][j];
 		}
 	}
 
-	int cnt = 0;
-	int mx = 0;
-
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			if (A[i][j] == 1 && !visited[i][j])
+			if (arr[i][j] == 1 && visited[i][j] == false)
 			{
-				visited[i][j] = true;
 				mq.push({ i,j });
+				visited[i][j] = true;
 				cnt++;
-				mx = max(mx,bfs());
+				BFS();
+				pictureCnt++;
+				if (cnt > mx)
+				{
+					mx = cnt;
+				}
+				cnt = 0;
 			}
 		}
 	}
 
-	cout << cnt << endl;
-	cout << mx << endl;
+	cout << pictureCnt << "\n";
+	cout << mx;
 }
