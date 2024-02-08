@@ -56,16 +56,16 @@ int main() {
 		}
 	}
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < 8001; i++)
 	{
-		if (arrCnt[arr[i]+4000] == mxCnt)
+		if (arrCnt[i] == mxCnt)
 		{
-			mxArr.push_back(arr[i]);	
+			mxArr.push_back(i-4000);	
 		}
 	}
 
 	sort(mxArr.begin(), mxArr.end());
-	mxArr.erase(unique(mxArr.begin(), mxArr.end()), mxArr.end());
+	
 	if (mxArr.size() > 1)
 	{
 		cout << mxArr[1] << '\n';
